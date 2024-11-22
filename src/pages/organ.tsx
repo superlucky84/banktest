@@ -3,22 +3,15 @@ import { makeDepartmentTree } from '@/helper/calculator';
 import DepartmentTree from '@/components/DepartmentTree';
 import UserList from '@/components/UserList';
 import UserItem from '@/components/UserItem';
-import { allMemberRef, selectMemberRef } from '@/store';
-import type { Organ, PageProps } from '@/types';
+import { allMemberRef } from '@/store';
+import type { Organ } from '@/types';
 
-export const makeInitProp = async () => {
-  const result = await fetch(
-    'http://localhost:3000/assets/choonsik_company_org.json'
-  );
-  return result.json();
-};
+import data from '@/data.json';
+console.log(data);
 
-const Organ = mount<PageProps<Organ>>((_renew, props) => {
-  const initProp = props.initProp;
-  const { departmentList, userList } = initProp;
+const Organ = mount(_renew => {
+  const { departmentList, userList } = data as Organ;
   const { departmantTree } = makeDepartmentTree(departmentList);
-
-  selectMemberRef.id = props.query.userId;
 
   allMemberRef.value = userList.map(item => {
     return {

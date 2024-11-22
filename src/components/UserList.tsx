@@ -1,15 +1,17 @@
 import type { UserList, User } from '@/types';
 // import { state, computed } from '@/engine/helper';
 import { h, mount } from '@/engine';
-import { navigate } from '@/route';
 import { selectedDepartmentWatch } from '@/store';
+import { navigate } from '@/route';
 // import clsx from '@/helper/clsx';
 
 const UserList = mount(renew => {
   const selectedUserList = selectedDepartmentWatch(renew, s => [s.members]);
 
   const handleSelect = (item: User) => {
-    navigate('/organ?userId=' + item.id);
+    console.log(item);
+    navigate(item.id);
+    // navigate("/organ?userId=" + item.id);
   };
 
   return () => (

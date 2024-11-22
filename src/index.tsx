@@ -1,16 +1,14 @@
-import { h, render, mount, Fragment } from 'lithent';
-import { HeaderNav } from '@/components/headernav';
-import { Main } from '@/components/Main';
+import { h, render, mount } from '@/engine';
+import Organ from '@/pages/organ';
 import '@/input.css';
 
 // https://github.com/themesberg/flowbite-admin-dashboard
 
 const Root = mount(() => {
   return () => (
-    <>
-      <HeaderNav />
-      <Main />
-    </>
+    <div class="w-3/4 h-[80vh] flex">
+      <Organ />
+    </div>
   );
 });
 
