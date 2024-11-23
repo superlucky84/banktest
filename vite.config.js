@@ -7,7 +7,7 @@ export default defineConfig({
     checker({
       typescript: true,
       eslint: {
-        lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
+        lintCommand: 'eslint "./src/**/*.{ts,ts}"',
       },
     }),
   ],
@@ -25,7 +25,7 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    include: ['src/tests/**/*.{js,ts,jsx,tsx}'],
+    include: ['src/tests/**/*.{js,ts,js,ts}'],
     setupFiles: './test/setup.ts',
     globals: true,
   },

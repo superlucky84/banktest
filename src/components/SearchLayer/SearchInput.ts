@@ -17,7 +17,7 @@ function debounce<T extends (...args: any[]) => void>(
   };
 }
 
-const SearchLayer = fMount(renew => {
+const fSearchLayer = fMount(renew => {
   const textState = state<string>('', renew);
   const handleChangeKeyword = debounce((event: Event) => {
     const text = (event.target as HTMLInputElement).value;
@@ -53,4 +53,4 @@ const SearchLayer = fMount(renew => {
     );
 });
 
-export default SearchLayer;
+export default fSearchLayer;

@@ -11,7 +11,7 @@ import {
 } from '@/store/departmentStore';
 import { departmentSearchTextListWatch } from '@/store/searchStore';
 
-const DepartLayer = fMount(renew => {
+const fDepartLayer = fMount(renew => {
   const selectedCode = selectedDepartmentWatch(renew, s => [s.code]);
   const opnedList = opendDepartmentCodesWatch(renew);
   const departmentTextList = departmentSearchTextListWatch(renew);
@@ -55,4 +55,4 @@ const DepartLayer = fMount(renew => {
     );
 });
 
-export default DepartLayer;
+export default fDepartLayer;

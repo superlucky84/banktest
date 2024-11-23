@@ -84,41 +84,6 @@ const fRoot = fMount(renew => {
           )
       )
     );
-  /*
-  return () => (
-    <div class="w-4/5 max-w-xl h-[80vh] flex flex-col text-white">
-      <SearchInput />
-      <div class="flex w-full items-center justify-left h-full bg-gray-100">
-        <div
-          class={clsx(
-            'flex flex-col transition-width duration-300',
-            isUserSelected.v ? 'w-1/3' : 'w-1/2',
-            'h-full bg-red-500 flex items-center justify-center relative'
-          )}
-        >
-          <DepartLayer />
-          <DepartmentTree departmantTree={departmantTree} />
-        </div>
-        <div
-          class={clsx(
-            'flex flex-col transition-width duration-300',
-            isUserSelected.v ? 'w-1/3' : 'w-1/2',
-            'h-full bg-green-500 flex items-center justify-center relative'
-          )}
-        >
-          <UserLayer />
-          <UserList />
-        </div>
-
-        {isUserSelected.value && (
-          <div class="w-1/3 h-full bg-blue-500 flex items-center justify-center">
-            <UserItem />
-          </div>
-        )}
-      </div>
-    </div>
-  );
-   */
 });
 
 render(fRoot(), document.body);
