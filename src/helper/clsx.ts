@@ -3,6 +3,9 @@ type ClassArray = ClassValue[];
 type ClassObject = Record<string, boolean>;
 type ClassInput = ClassValue | ClassArray | ClassObject;
 
+/**
+ * 클래스 문자열 조합기
+ */
 export default function clsx(...args: ClassInput[]): string {
   return args
     .flatMap(arg => {

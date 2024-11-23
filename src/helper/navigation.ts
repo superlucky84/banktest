@@ -1,6 +1,9 @@
 import { selectMemberRef } from '@/store/userStore';
 import { selectedMemberWithTreeOpen, initSelect } from '@/store/action';
 
+/**
+ * popState 이벤트 바인딩 및 초기상태 세팅
+ */
 export function initNavigation() {
   initSelect();
 

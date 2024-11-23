@@ -1,23 +1,21 @@
 import { render, mountCallback } from '@/engine';
 import { computed } from '@/engine/helper';
-import { makeDepartmentTree, normalizeUserField } from '@/helper/calculator';
 import { fMount, fTags } from '@/engine/ftags';
 
-import data from '@/data.json';
-import fDepartmentTree from '@/components/Department/DepartmentTree';
-import fDepartLayer from '@/components/SearchLayer/DepartLayer';
-import fSearchInput from '@/components/SearchLayer/SearchInput';
-import fUserList from '@/components/User/UserList';
-import fUserLayer from '@/components/SearchLayer/UserLayer';
-import fUserItem from '@/components/User/UserItem';
-
+import { makeDepartmentTree, normalizeUserField } from '@/helper/calculator';
 import { initNavigation } from '@/helper/navigation';
-import clsx from '@/helper/clsx';
+
+import fSearchInput from '@/components/SearchLayer/SearchInput';
+import fLeft from '@/components/Index/Left';
+import fCenter from '@/components/Index/Center';
+import fRight from '@/components/Index/Right';
+
 import { allMemberRef, selectedMemberWatch } from '@/store/userStore';
 import { departmentListRef, departmentMapRef } from '@/store/departmentStore';
-import type { Organ } from '@/types';
-import '@/input.css';
 
+import data from '@/data.json';
+import '@/input.css';
+import type { Organ } from '@/types';
 const { div } = fTags;
 
 const fRoot = fMount(renew => {
@@ -50,38 +48,9 @@ const fRoot = fMount(renew => {
         {
           class: 'flex w-full items-center justify-left h-full bg-gray-100',
         },
-        div(
-          {
-            class: clsx(
-              'flex flex-col transition-width duration-300',
-              isUserSelected.v ? 'w-1/3' : 'w-1/2',
-              'h-full bg-red-500 flex items-center justify-center relative'
-            ),
-          },
-          fDepartLayer(),
-          fDepartmentTree({
-            departmantTree: departmantTree,
-          })
-        ),
-        div(
-          {
-            class: clsx(
-              'flex flex-col transition-width duration-300',
-              isUserSelected.v ? 'w-1/3' : 'w-1/2',
-              'h-full bg-green-500 flex items-center justify-center relative'
-            ),
-          },
-          fUserLayer(),
-          fUserList()
-        ),
-        isUserSelected.value &&
-          div(
-            {
-              class:
-                'w-1/3 h-full bg-blue-500 flex items-center justify-center',
-            },
-            fUserItem()
-          )
+        fLeft({ isUserSelected, departmantTree }),
+        fCenter({ isUserSelected }),
+        fRight({ isUserSelected })
       )
     );
 });

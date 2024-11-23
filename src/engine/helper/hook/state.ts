@@ -15,7 +15,6 @@ export const state = <T>(
       return result;
     },
     set value(newValue: T) {
-      console.log(newValue);
       result = newValue;
       renew();
     },

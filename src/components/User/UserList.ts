@@ -1,12 +1,12 @@
-import type { User } from '@/types';
-// import { state, computed } from '@/engine/helper';
 import { fMount, fTags } from '@/engine/ftags';
 import clsx from '@/helper/clsx';
-import { selectedDepartmentWatch } from '@/store/departmentStore';
-import { selectedMemberWatch } from '@/store/userStore';
 import { navigate } from '@/helper/navigation';
 
+import type { User } from '@/types';
 const { ul, li, button } = fTags;
+
+import { selectedDepartmentWatch } from '@/store/departmentStore';
+import { selectedMemberWatch } from '@/store/userStore';
 
 const fUserList = fMount(renew => {
   const departmentUserInfo = selectedDepartmentWatch(renew, s => [s.members]);
