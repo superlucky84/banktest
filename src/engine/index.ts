@@ -20,11 +20,3 @@ export type {
   NodePointer,
   Param,
 } from '@/engine/types';
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      [name: string]: any;
-    }
-  }
-}
