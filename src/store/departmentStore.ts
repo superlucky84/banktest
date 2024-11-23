@@ -9,6 +9,12 @@ import type { UserList, DepartmentList } from '@/types';
 export const departmentListRef = ref<DepartmentList>([]);
 
 /**
+ * 펼쳐진 트리 리스트
+ */
+export const opendDepartmentCodesWatch = store<string[]>([]);
+export const opendDepartmentCodesRef = opendDepartmentCodesWatch();
+
+/**
  * 선택된 부서 구독함수
  */
 export const selectedDepartmentWatch = store<{
@@ -32,9 +38,3 @@ selectedDepartmentWatch(
   },
   state => [state.code]
 );
-
-/**
- * 펼쳐진 트리 코드 리스트
- */
-export const opendDepartmentCodesWatch = store<string[]>([]);
-export const opendDepartmentCodesRef = opendDepartmentCodesWatch();
