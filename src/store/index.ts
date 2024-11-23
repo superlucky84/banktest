@@ -1,5 +1,12 @@
-import type { UserList, User } from '@/types';
+import type { UserList, User, DepartmentList } from '@/types';
 import { store } from '@/engine/helper';
+import { ref } from '@/engine';
+
+/**
+ * 부서리스트
+ */
+
+export const departmentListRef = ref<DepartmentList>([]);
 
 /**
  * 모든맴버

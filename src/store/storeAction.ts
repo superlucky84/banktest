@@ -3,9 +3,15 @@ import {
   allMemberRef,
   opendDepartmentCodesRef,
   selectedDepartmentRef,
+  departmentListRef,
 } from '@/store';
 
-import { userSearchTextListRef } from '@/store/searchStore';
+import {
+  userSearchTextListRef,
+  departmentSearchTextListRef,
+} from '@/store/searchStore';
+
+console.log(departmentSearchTextListRef);
 
 /**
  * 텍스트 검색창에 텍스트로 검색
@@ -15,18 +21,24 @@ export function searchFromText(text: string) {
 
   const filteredMembers = normalizedText
     ? allMemberRef.value.filter(item => {
-        return item.name.toLowerCase().includes(normalizedText);
+        return item.name.includes(normalizedText);
       })
     : [];
   userSearchTextListRef.value = filteredMembers;
 
-  console.log(filteredMembers);
+  const filteredDepartment = normalizedText
+    ? departmentListRef.value.filter(item => item.name.includes(normalizedText))
+    : [];
+  departmentSearchTextListRef.value = filteredDepartment;
 }
 
 /**
  * 선택과 동시에 트리 상태 변경
  */
-export function selectedMemberWithTreeOpen(userId: string, isPush: boolean) {
+export function selectedMemberWithTreeOpen(
+  userId: string,
+  changeTree: boolean
+) {
   selectMemberRef.id = userId;
 
   let selectedMember = allMemberRef.value.find(item => item.id === userId);
@@ -36,7 +48,7 @@ export function selectedMemberWithTreeOpen(userId: string, isPush: boolean) {
     selectMemberRef.id = 'choonsik';
   }
 
-  if (selectedMember && !isPush) {
+  if (selectedMember && changeTree) {
     opendDepartmentCodesRef.value = [
       ...new Set([
         ...opendDepartmentCodesRef.value,

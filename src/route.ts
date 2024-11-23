@@ -7,30 +7,41 @@ export function makeRoute() {
   // 히스토리 변경시 상태 변경
   window.addEventListener('popstate', _ => {
     const { pathname, search, origin } = window.location;
+    console.log('POPSTATE');
 
     const urlA = new URL(`${pathname}?userId=${selectMemberRef.id}`, origin);
     const urlB = new URL(`${pathname}${search}`, origin);
 
-    execRoute(urlA, urlB, false);
+    execRoute({ urlA, urlB, isPush: false, changeTree: true });
   });
 }
 
 /**
  * 사용자가 쿼리 변경
  */
-export function navigate(query: string) {
+export function navigate(query: string, changeTree: boolean = false) {
   const { pathname, search, origin } = window.location;
 
   const urlA = new URL(`${pathname}${search}`, origin);
   const urlB = new URL(`${pathname}${query}`, origin);
 
-  execRoute(urlA, urlB, true);
+  execRoute({ urlA, urlB, isPush: true, changeTree });
 }
 
 /**
  * 공통 라우팅 처리
  */
-function execRoute(urlA: URL, urlB: URL, isPush?: boolean) {
+function execRoute({
+  urlA,
+  urlB,
+  isPush,
+  changeTree,
+}: {
+  urlA: URL;
+  urlB: URL;
+  isPush: boolean;
+  changeTree: boolean;
+}) {
   if (urlA.pathname === urlB.pathname) {
     if (!urlB.search || urlA.search === urlB.search) {
       selectMemberRef.id = '';
@@ -38,7 +49,7 @@ function execRoute(urlA: URL, urlB: URL, isPush?: boolean) {
       const userSearchParam = new URLSearchParams(urlB.search);
       const userId = userSearchParam.get('userId');
       if (userId) {
-        selectedMemberWithTreeOpen(userId, Boolean(isPush));
+        selectedMemberWithTreeOpen(userId, changeTree);
       }
     }
   }
