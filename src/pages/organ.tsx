@@ -1,37 +1,20 @@
 import { h, mount, Fragment, mountCallback } from '@/engine';
 import { makeDepartmentTree } from '@/helper/calculator';
-import clsx from '@/helper/clsx';
-// import { computed } from '@/engine/helper';
 import DepartmentTree from '@/components/DepartmentTree';
+import DepartLayer from '@/components/SearchLayer/DepartLayer';
 import Navi from '@/components/Navi';
 import UserList from '@/components/UserList';
+import UserLayer from '@/components/SearchLayer/UserLayer';
 import data from '@/data.json';
-import { makeRoute, navigate } from '@/route';
+import { makeRoute } from '@/route';
 import UserItem from '@/components/UserItem';
-import {
-  selectedDepartmentWatch,
-  allMemberRef,
-  departmentListRef,
-  selectedMemberWatch,
-  opendDepartmentCodesWatch,
-} from '@/store';
+import { allMemberRef, departmentListRef } from '@/store';
 
-import {
-  userSearchTextListWatch,
-  departmentSearchTextListWatch,
-} from '@/store/searchStore';
 import type { Organ } from '@/types';
 
-const Organ = mount(renew => {
+const Organ = mount(() => {
   const { departmentList, userList } = data as Organ;
   const { departmantTree } = makeDepartmentTree(departmentList);
-
-  const selectedMemberInfo = selectedMemberWatch(renew, s => [s.id]);
-  const selectedCode = selectedDepartmentWatch(renew, s => [s.code]);
-  const opnedList = opendDepartmentCodesWatch(renew);
-
-  const searchTextList = userSearchTextListWatch(renew);
-  const departmentTextList = departmentSearchTextListWatch(renew);
 
   departmentListRef.value = departmentList;
 
@@ -47,67 +30,19 @@ const Organ = mount(renew => {
     makeRoute();
   });
 
-  const handleSelectFromSearchUser = (userId: string) => {
-    navigate(`?userId=${userId}`, true);
-  };
-  const handleSelectFromSearchDepart = (code: string) => {
-    selectedCode.code = code;
-    const index = opnedList.value.indexOf(code);
-
-    if (index === -1) {
-      opnedList.value = [...opnedList.value, code];
-    }
-  };
-
   return () => (
     <Fragment>
       <Navi />
       <div class="flex w-full items-center justify-center h-full bg-gray-100">
         <div class="flex flex-col w-1/3 h-full bg-red-500 flex items-center justify-center relative">
-          {searchTextList.value.length > 0 && (
-            <ul class="absolute z-10 top-1.5 w-4/5 rounded-lg border border-gray-300 p-4 shadow-lg bg-white">
-              {searchTextList.value.map(item => (
-                <li
-                  class={clsx('relative', {
-                    'bg-stone-200': selectedMemberInfo.id === item.id,
-                  })}
-                  key={item.id}
-                >
-                  <button
-                    onClick={() => handleSelectFromSearchUser(item.id)}
-                    type="button"
-                  >
-                    {item.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
           <DepartmentTree departmantTree={departmantTree} />
         </div>
         <div class="flex flex-col w-1/3 h-full bg-green-500 flex items-center justify-center relative">
-          {departmentTextList.value.length > 0 && (
-            <ul class="absolute z-10 top-1.5 w-4/5 rounded-lg border border-gray-300 p-4 shadow-lg bg-white">
-              {departmentTextList.value.map(item => (
-                <li
-                  class={clsx('relative', {
-                    'bg-stone-200': selectedCode.code === item.code,
-                  })}
-                  key={item.code}
-                >
-                  <button
-                    type="button"
-                    onClick={() => handleSelectFromSearchDepart(item.code)}
-                  >
-                    {item.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
+          <UserLayer />
           <UserList />
         </div>
         <div class="w-1/3 h-full bg-blue-500 flex items-center justify-center">
+          <DepartLayer />
           <UserItem />
         </div>
       </div>
