@@ -23,4 +23,10 @@ export default defineConfig({
   server: {
     open: '/index.html',
   },
+  test: {
+    environment: 'jsdom',
+    include: ['src/tests/**/*.{js,ts,jsx,tsx}'],
+    setupFiles: './test/setup.ts',
+    globals: true,
+  },
 });
