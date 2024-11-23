@@ -1,6 +1,6 @@
-import { state, computed } from '@/engine/helper';
+import { computed } from '@/engine/helper';
 import { h, mount, Fragment } from '@/engine';
-import { selectedDepartmentWatch } from '@/store';
+import { selectedDepartmentWatch, opendDepartmentCodesWatch } from '@/store';
 import clsx from '@/helper/clsx';
 import type { Department } from '@/types';
 
@@ -15,7 +15,7 @@ const DepartmentTree = mount<{ departmantTree: Department }>(_renew => {
 });
 
 const DepartmentItem = mount<{ item: Department }>((renew, props) => {
-  const opend = state(false, renew);
+  const opnedList = opendDepartmentCodesWatch(renew);
 
   /**
    * 스토어에서 선택부서 코드만 구독
@@ -31,12 +31,22 @@ const DepartmentItem = mount<{ item: Department }>((renew, props) => {
   );
 
   const handleToggle = () => {
-    opend.value = !opend.value;
+    const code = props.item.code;
+    const index = opnedList.value.indexOf(code);
+    if (index === -1) {
+      opnedList.value = [...opnedList.value, code];
+    } else {
+      opnedList.value = opnedList.value.filter(item => item !== code);
+    }
   };
 
   const handleSelect = (code: string) => {
     selectedCode.code = code;
-    opend.value = true;
+    const index = opnedList.value.indexOf(code);
+
+    if (index === -1) {
+      opnedList.value = [...opnedList.value, code];
+    }
   };
 
   return ({ item }) => (
@@ -44,12 +54,12 @@ const DepartmentItem = mount<{ item: Department }>((renew, props) => {
       <li class={clsx('relative', { 'bg-stone-200': isSelected.value })}>
         {hasChildren.value && (
           <button class="absolute -left-3" onClick={handleToggle}>
-            {opend.value ? '-' : '+'}
+            {opnedList.value.includes(item.code) ? '-' : '+'}
           </button>
         )}
         <button onClick={() => handleSelect(item.code)}>{item.name}</button>
       </li>
-      {hasChildren.value && opend.value && (
+      {hasChildren.value && opnedList.value.includes(item.code) && (
         <DepartmentTree departmantTree={item} />
       )}
     </Fragment>

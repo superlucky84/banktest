@@ -9,10 +9,11 @@ export function makeDepartmentTree(departmentList: DepartmentList) {
     return acc;
   }, {} as Record<string, Department>);
 
-  const departmantTree = Object.entries(departmantMap).reduce(
-    (acc, [_code, item]: [string, Department]) => {
-      const isRoot = item.parentCode === '0';
-      const parentItem = departmantMap[item.parentCode];
+  const departmantTree = departmentList.reduce(
+    (acc, listItem: Department) => {
+      const isRoot = listItem.parentCode === '0';
+      const parentItem = departmantMap[listItem.parentCode];
+      const item = departmantMap[listItem.code];
 
       if (isRoot && acc.children) {
         acc.children.push(item);

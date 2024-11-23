@@ -1,7 +1,8 @@
-import { h, mount, Fragment } from '@/engine';
+import { h, mount, Fragment, mountCallback } from '@/engine';
 import { makeDepartmentTree } from '@/helper/calculator';
 import DepartmentTree from '@/components/DepartmentTree';
 import UserList from '@/components/UserList';
+import { makeRoute } from '@/route';
 import UserItem from '@/components/UserItem';
 import { allMemberRef } from '@/store';
 import type { Organ } from '@/types';
@@ -19,6 +20,10 @@ const Organ = mount(_renew => {
       departmentCodeList: item.departmentCodePath.split(';'),
       departmentNameList: item.departmentNamePath.split(';'),
     };
+  });
+
+  mountCallback(() => {
+    makeRoute();
   });
 
   return () => (

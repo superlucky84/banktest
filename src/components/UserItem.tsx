@@ -14,7 +14,7 @@ const UserItem = mount(renew => {
     console.log('AAAAAAAA');
   });
 
-  return () => <ul>{userInfo.id}</ul>;
+  return () => <ul>{userInfo.info?.id}</ul>;
 });
 
 export default UserItem;

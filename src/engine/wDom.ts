@@ -203,7 +203,9 @@ const addComponentProps = (
     reRenderCustomComponent(tag, props, children, wDom)
   );
 
-  (getComponentSubInfo(compKey, 'vd') as { value: WDom }).value = wDom;
+  if (getComponentSubInfo(compKey, 'vd')) {
+    (getComponentSubInfo(compKey, 'vd') as { value: WDom }).value = wDom;
+  }
 };
 
 const makeNode = (

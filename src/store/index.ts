@@ -32,6 +32,8 @@ selectedDepartmentWatch(
   },
   state => [state.code]
 );
+export const opendDepartmentCodesWatch = store<string[]>([]);
+export const opendDepartmentCodesRef = opendDepartmentCodesWatch();
 
 /**
  * 선택된 멤버
@@ -45,12 +47,26 @@ export const selectedMemberWatch = store<{
 });
 export const selectMemberRef = selectedMemberWatch();
 
+export function initSelect() {
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get('userId');
+
+  selectMemberRef.id = userId || '';
+
+  const selectedMember = allMemberRef.value.find(item => item.id === userId);
+  if (selectedMember) {
+    opendDepartmentCodesRef.value = [...selectedMember.departmentCodeList];
+    selectedDepartmentRef.code = selectedMember.departmentCode;
+  }
+}
+
 selectedMemberWatch(
   state => {
-    const info = allMemberRef.value.find(item => state.id && item.id);
+    const info = allMemberRef.value.find(item => state.id === item.id);
     if (info && state.id) {
-      console.log('UPDATEID', info);
       state.info = info;
+    } else {
+      state.info = null;
     }
   },
   state => [state.id]

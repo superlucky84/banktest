@@ -167,7 +167,6 @@ const runWithtrashCollectUnit = (storeRenderList: Set<Run>) => {
   const trashes: Run[] = [];
   storeRenderList.forEach(run => {
     if (run() === false) {
-      console.log('TRASH!!!!!!!');
       trashes.push(run);
     }
   });
