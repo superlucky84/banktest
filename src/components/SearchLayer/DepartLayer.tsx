@@ -1,9 +1,11 @@
 import { h, mount, Fragment } from '@/engine';
 import clsx from '@/helper/clsx';
+import { findAllParentCode } from '@/helper/calculator';
 
 import {
   selectedDepartmentWatch,
   opendDepartmentCodesWatch,
+  departmentMapRef,
 } from '@/store/departmentStore';
 import { departmentSearchTextListWatch } from '@/store/searchStore';
 
@@ -12,13 +14,14 @@ const DepartLayer = mount(renew => {
   const opnedList = opendDepartmentCodesWatch(renew);
   const departmentTextList = departmentSearchTextListWatch(renew);
 
+  /**
+   * 해당 코드를 포함하는 모든 부모 코드를 전부 펼침
+   */
   const handleSelectFromSearchDepart = (code: string) => {
     selectedCode.code = code;
-    const index = opnedList.value.indexOf(code);
 
-    if (index === -1) {
-      opnedList.value = [...opnedList.value, code];
-    }
+    const acc = findAllParentCode(departmentMapRef.value[code], [code]);
+    opnedList.value = [...new Set([...opnedList.value, ...acc])];
   };
 
   return () => (

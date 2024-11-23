@@ -1,12 +1,13 @@
 import { store } from '@/engine/helper';
 import { ref } from '@/engine';
 import { allMemberRef } from '@/store/userStore';
-import type { UserList, DepartmentList } from '@/types';
+import type { UserList, DepartmentList, Department } from '@/types';
 
 /**
  * 모든부서 리스트
  */
 export const departmentListRef = ref<DepartmentList>([]);
+export const departmentMapRef = ref<Record<string, Department>>({});
 
 /**
  * 펼쳐진 트리 리스트

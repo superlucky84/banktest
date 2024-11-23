@@ -1,13 +1,11 @@
 import { selectMemberRef } from '@/store/userStore';
 import { selectedMemberWithTreeOpen, initSelect } from '@/store/action';
 
-export function makeRoute() {
+export function initNavigation() {
   initSelect();
 
-  // 히스토리 변경시 상태 변경
   window.addEventListener('popstate', _ => {
     const { pathname, search, origin } = window.location;
-    console.log('POPSTATE');
 
     const urlA = new URL(`${pathname}?userId=${selectMemberRef.id}`, origin);
     const urlB = new URL(`${pathname}${search}`, origin);

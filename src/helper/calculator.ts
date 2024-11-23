@@ -1,4 +1,6 @@
-import type { Department, DepartmentList } from '@/types';
+import type { UserList, Department, DepartmentList } from '@/types';
+
+import { departmentMapRef } from '@/store/departmentStore';
 
 /**
  * 부서 트리 만들기
@@ -26,4 +28,31 @@ export function makeDepartmentTree(departmentList: DepartmentList) {
   );
 
   return { departmantTree, departmantMap };
+}
+
+/**
+ * 해당 부서의 모든 부모 부서 코드 리턴
+ */
+export function findAllParentCode(dpartment: Department, acc: string[]) {
+  const parentCode = dpartment.parentCode;
+
+  if (parentCode && parentCode !== '0') {
+    acc.push(parentCode);
+
+    return findAllParentCode(departmentMapRef.value[parentCode], acc);
+  }
+  return acc;
+}
+
+/**
+ * 유저 리스트의 특정 필드를 다루기 쉽도록 추가
+ */
+export function normalizeUserField(userList: UserList) {
+  return userList.map(item => {
+    return {
+      ...item,
+      departmentCodeList: item.departmentCodePath.split(';'),
+      departmentNameList: item.departmentNamePath.split(';'),
+    };
+  });
 }

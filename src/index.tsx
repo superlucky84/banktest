@@ -1,37 +1,34 @@
 import { h, mount, render, mountCallback } from '@/engine';
-import { makeDepartmentTree } from '@/helper/calculator';
+import { makeDepartmentTree, normalizeUserField } from '@/helper/calculator';
 import DepartmentTree from '@/components/Department/DepartmentTree';
 import DepartLayer from '@/components/SearchLayer/DepartLayer';
 import SearchInput from '@/components/SearchLayer/SearchInput';
 import UserList from '@/components/User/UserList';
 import UserLayer from '@/components/SearchLayer/UserLayer';
 import data from '@/data.json';
-import { makeRoute } from '@/route';
+import { initNavigation } from '@/route';
 import UserItem from '@/components/User/UserItem';
 import { allMemberRef } from '@/store/userStore';
-import { departmentListRef } from '@/store/departmentStore';
-
+import { departmentListRef, departmentMapRef } from '@/store/departmentStore';
 import type { Organ } from '@/types';
 import '@/input.css';
 
-// https://github.com/themesberg/flowbite-admin-dashboard
-
 const Root = mount(() => {
   const { departmentList, userList } = data as Organ;
-  const { departmantTree } = makeDepartmentTree(departmentList);
+  const { departmantTree, departmantMap } = makeDepartmentTree(departmentList);
 
+  /**
+   * 부서 데이터, 유저데이트 스토어에 등록
+   */
   departmentListRef.value = departmentList;
+  departmentMapRef.value = departmantMap;
+  allMemberRef.value = normalizeUserField(userList);
 
-  allMemberRef.value = userList.map(item => {
-    return {
-      ...item,
-      departmentCodeList: item.departmentCodePath.split(';'),
-      departmentNameList: item.departmentNamePath.split(';'),
-    };
-  });
-
+  /**
+   * 부서 데이터, 유저데이트 스토어에 등록
+   */
   mountCallback(() => {
-    makeRoute();
+    initNavigation();
   });
 
   return () => (
