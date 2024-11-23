@@ -5,7 +5,27 @@ import {
   selectedDepartmentRef,
 } from '@/store';
 
-// 선택과 동시에 트리 오픈
+import { userSearchTextListRef } from '@/store/searchStore';
+
+/**
+ * 텍스트 검색창에 텍스트로 검색
+ */
+export function searchFromText(text: string) {
+  const normalizedText = text.trim().toLowerCase(); // 공백 제거 및 소문자화
+
+  const filteredMembers = normalizedText
+    ? allMemberRef.value.filter(item => {
+        return item.name.toLowerCase().includes(normalizedText);
+      })
+    : [];
+  userSearchTextListRef.value = filteredMembers;
+
+  console.log(filteredMembers);
+}
+
+/**
+ * 선택과 동시에 트리 상태 변경
+ */
 export function selectedMemberWithTreeOpen(userId: string, isPush: boolean) {
   selectMemberRef.id = userId;
 
