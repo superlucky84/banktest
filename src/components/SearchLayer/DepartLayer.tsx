@@ -1,6 +1,8 @@
-import { h, mount, Fragment } from '@/engine';
 import clsx from '@/helper/clsx';
 import { findAllParentCode } from '@/helper/calculator';
+import { fMount, fTags, fFragment } from '@/engine/ftags';
+
+const { ul, li, button } = fTags;
 
 import {
   selectedDepartmentWatch,
@@ -9,7 +11,7 @@ import {
 } from '@/store/departmentStore';
 import { departmentSearchTextListWatch } from '@/store/searchStore';
 
-const DepartLayer = mount(renew => {
+const DepartLayer = fMount(renew => {
   const selectedCode = selectedDepartmentWatch(renew, s => [s.code]);
   const opnedList = opendDepartmentCodesWatch(renew);
   const departmentTextList = departmentSearchTextListWatch(renew);
@@ -24,29 +26,33 @@ const DepartLayer = mount(renew => {
     opnedList.value = [...new Set([...opnedList.value, ...acc])];
   };
 
-  return () => (
-    <Fragment>
-      {departmentTextList.value.length > 0 && (
-        <ul class="absolute z-10 top-1.5 w-4/5 rounded-lg border border-gray-300 p-4 shadow-lg text-black bg-white">
-          {departmentTextList.value.map(item => (
-            <li
-              class={clsx('relative', {
-                'bg-zinc-400': selectedCode.code === item.code,
-              })}
-              key={item.code}
-            >
-              <button
-                type="button"
-                onClick={() => handleSelectFromSearchDepart(item.code)}
-              >
-                {item.name}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </Fragment>
-  );
+  return () =>
+    fFragment(
+      departmentTextList.value.length > 0 &&
+        ul(
+          {
+            class:
+              'absolute z-10 top-1.5 w-4/5 rounded-lg border border-gray-300 p-4 shadow-lg text-black bg-white',
+          },
+          departmentTextList.value.map(item =>
+            li(
+              {
+                class: clsx('relative', {
+                  'bg-zinc-400': selectedCode.code === item.code,
+                }),
+                key: item.code,
+              },
+              button(
+                {
+                  type: 'button',
+                  onClick: () => handleSelectFromSearchDepart(item.code),
+                },
+                item.name
+              )
+            )
+          )
+        )
+    );
 });
 
 export default DepartLayer;

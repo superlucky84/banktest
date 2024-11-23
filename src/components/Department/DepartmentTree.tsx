@@ -1,15 +1,15 @@
-import { h, mount } from '@/engine';
 import type { Department } from '@/types';
-import DepartmentItem from '@/components/Department/DepartmentItem';
+import { fMount, fTags } from '@/engine/ftags';
+import fDepartmentItem from '@/components/Department/DepartmentItem';
 
-const DepartmentTree = mount<{ departmantTree: Department }>(_renew => {
-  return ({ departmantTree }) => (
-    <ul class="pl-2">
-      {departmantTree.children.map(item => (
-        <DepartmentItem item={item} />
-      ))}
-    </ul>
-  );
+const { ul } = fTags;
+
+const fDepartmentTree = fMount<{ departmantTree: Department }>(_renew => {
+  return ({ departmantTree }) =>
+    ul(
+      { class: 'pl-2' },
+      departmantTree.children.map(item => fDepartmentItem({ item }))
+    );
 });
 
-export default DepartmentTree;
+export default fDepartmentTree;

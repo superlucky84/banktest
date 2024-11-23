@@ -1,14 +1,15 @@
-import { h, mount, render, mountCallback } from '@/engine';
+import { render, mountCallback } from '@/engine';
 import { computed } from '@/engine/helper';
 import { makeDepartmentTree, normalizeUserField } from '@/helper/calculator';
+import { fMount, fTags } from '@/engine/ftags';
 
 import data from '@/data.json';
-import DepartmentTree from '@/components/Department/DepartmentTree';
-import DepartLayer from '@/components/SearchLayer/DepartLayer';
-import SearchInput from '@/components/SearchLayer/SearchInput';
-import UserList from '@/components/User/UserList';
-import UserLayer from '@/components/SearchLayer/UserLayer';
-import UserItem from '@/components/User/UserItem';
+import fDepartmentTree from '@/components/Department/DepartmentTree';
+import fDepartLayer from '@/components/SearchLayer/DepartLayer';
+import fSearchInput from '@/components/SearchLayer/SearchInput';
+import fUserList from '@/components/User/UserList';
+import fUserLayer from '@/components/SearchLayer/UserLayer';
+import fUserItem from '@/components/User/UserItem';
 
 import { initNavigation } from '@/helper/navigation';
 import clsx from '@/helper/clsx';
@@ -17,7 +18,9 @@ import { departmentListRef, departmentMapRef } from '@/store/departmentStore';
 import type { Organ } from '@/types';
 import '@/input.css';
 
-const Root = mount(renew => {
+const { div } = fTags;
+
+const fRoot = fMount(renew => {
   const { departmentList, userList } = data as Organ;
   const { departmantTree, departmantMap } = makeDepartmentTree(departmentList);
   const selectedMemberInfo = selectedMemberWatch(renew, s => [s.id]);
@@ -37,6 +40,51 @@ const Root = mount(renew => {
     initNavigation();
   });
 
+  return () =>
+    div(
+      {
+        class: 'w-4/5 max-w-xl h-[80vh] flex flex-col text-white',
+      },
+      fSearchInput(),
+      div(
+        {
+          class: 'flex w-full items-center justify-left h-full bg-gray-100',
+        },
+        div(
+          {
+            class: clsx(
+              'flex flex-col transition-width duration-300',
+              isUserSelected.v ? 'w-1/3' : 'w-1/2',
+              'h-full bg-red-500 flex items-center justify-center relative'
+            ),
+          },
+          fDepartLayer(),
+          fDepartmentTree({
+            departmantTree: departmantTree,
+          })
+        ),
+        div(
+          {
+            class: clsx(
+              'flex flex-col transition-width duration-300',
+              isUserSelected.v ? 'w-1/3' : 'w-1/2',
+              'h-full bg-green-500 flex items-center justify-center relative'
+            ),
+          },
+          fUserLayer(),
+          fUserList()
+        ),
+        isUserSelected.value &&
+          div(
+            {
+              class:
+                'w-1/3 h-full bg-blue-500 flex items-center justify-center',
+            },
+            fUserItem()
+          )
+      )
+    );
+  /*
   return () => (
     <div class="w-4/5 max-w-xl h-[80vh] flex flex-col text-white">
       <SearchInput />
@@ -70,6 +118,7 @@ const Root = mount(renew => {
       </div>
     </div>
   );
+   */
 });
 
-render(<Root />, document.body);
+render(fRoot(), document.body);

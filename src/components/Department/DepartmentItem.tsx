@@ -1,14 +1,17 @@
+import { WDom } from '@/engine';
 import { computed } from '@/engine/helper';
-import { h, mount, Fragment } from '@/engine';
+import { fMount, fTags, fFragment } from '@/engine/ftags';
 import {
   selectedDepartmentWatch,
   opendDepartmentCodesWatch,
 } from '@/store/departmentStore';
 import clsx from '@/helper/clsx';
 import type { Department } from '@/types';
-import DepartmentTree from '@/components/Department/DepartmentTree';
+import fDepartmentTree from '@/components/Department/DepartmentTree';
 
-const DepartmentItem = mount<{ item: Department }>((renew, props) => {
+const { li, button } = fTags;
+
+const fDepartmentItem = fMount<{ item: Department }>((renew, props) => {
   const opnedList = opendDepartmentCodesWatch(renew);
 
   /**
@@ -43,21 +46,31 @@ const DepartmentItem = mount<{ item: Department }>((renew, props) => {
     }
   };
 
-  return ({ item }) => (
-    <Fragment>
-      <li class={clsx('relative', { 'bg-zinc-400': isSelected.value })}>
-        {hasChildren.value && (
-          <button class="absolute -left-3" onClick={handleToggle}>
-            {opnedList.value.includes(item.code) ? '-' : '+'}
-          </button>
-        )}
-        <button onClick={() => handleSelect(item.code)}>{item.name}</button>
-      </li>
-      {hasChildren.value && opnedList.value.includes(item.code) && (
-        <DepartmentTree departmantTree={item} />
-      )}
-    </Fragment>
-  );
+  return ({ item }): WDom =>
+    fFragment(
+      li(
+        {
+          class: clsx('relative', { 'bg-zinc-400': isSelected.value }),
+        },
+        hasChildren.value &&
+          button(
+            {
+              class: 'absolute -left-3',
+              onClick: handleToggle,
+            },
+            opnedList.value.includes(item.code) ? '-' : '+'
+          ),
+        button(
+          {
+            onClick: () => handleSelect(item.code),
+          },
+          item.name
+        )
+      ),
+      hasChildren.value &&
+        opnedList.value.includes(item.code) &&
+        fDepartmentTree({ departmantTree: item })
+    );
 });
 
-export default DepartmentItem;
+export default fDepartmentItem;
