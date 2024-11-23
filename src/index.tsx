@@ -1,6 +1,8 @@
 import { h, mount, render, mountCallback } from '@/engine';
+import { computed } from '@/engine/helper';
 import { makeDepartmentTree, normalizeUserField } from '@/helper/calculator';
 
+import data from '@/data.json';
 import DepartmentTree from '@/components/Department/DepartmentTree';
 import DepartLayer from '@/components/SearchLayer/DepartLayer';
 import SearchInput from '@/components/SearchLayer/SearchInput';
@@ -8,16 +10,18 @@ import UserList from '@/components/User/UserList';
 import UserLayer from '@/components/SearchLayer/UserLayer';
 import UserItem from '@/components/User/UserItem';
 
-import data from '@/data.json';
 import { initNavigation } from '@/helper/navigation';
-import { allMemberRef } from '@/store/userStore';
+import clsx from '@/helper/clsx';
+import { allMemberRef, selectedMemberWatch } from '@/store/userStore';
 import { departmentListRef, departmentMapRef } from '@/store/departmentStore';
 import type { Organ } from '@/types';
 import '@/input.css';
 
-const Root = mount(() => {
+const Root = mount(renew => {
   const { departmentList, userList } = data as Organ;
   const { departmantTree, departmantMap } = makeDepartmentTree(departmentList);
+  const selectedMemberInfo = selectedMemberWatch(renew, s => [s.id]);
+  const isUserSelected = computed(() => Boolean(selectedMemberInfo.id));
 
   /**
    * 부서 데이터, 유저데이트 스토어에 등록
@@ -36,18 +40,33 @@ const Root = mount(() => {
   return () => (
     <div class="w-4/5 max-w-xl h-[80vh] flex flex-col text-white">
       <SearchInput />
-      <div class="flex w-full items-center justify-center h-full bg-gray-100">
-        <div class="flex flex-col w-1/3 h-full bg-red-500 flex items-center justify-center relative">
+      <div class="flex w-full items-center justify-left h-full bg-gray-100">
+        <div
+          class={clsx(
+            'flex flex-col transition-width duration-300',
+            isUserSelected.v ? 'w-1/3' : 'w-1/2',
+            'h-full bg-red-500 flex items-center justify-center relative'
+          )}
+        >
           <DepartLayer />
           <DepartmentTree departmantTree={departmantTree} />
         </div>
-        <div class="flex flex-col w-1/3 h-full bg-green-500 flex items-center justify-center relative">
+        <div
+          class={clsx(
+            'flex flex-col transition-width duration-300',
+            isUserSelected.v ? 'w-1/3' : 'w-1/2',
+            'h-full bg-green-500 flex items-center justify-center relative'
+          )}
+        >
           <UserLayer />
           <UserList />
         </div>
-        <div class="w-1/3 h-full bg-blue-500 flex items-center justify-center">
-          <UserItem />
-        </div>
+
+        {isUserSelected.value && (
+          <div class="w-1/3 h-full bg-blue-500 flex items-center justify-center">
+            <UserItem />
+          </div>
+        )}
       </div>
     </div>
   );
