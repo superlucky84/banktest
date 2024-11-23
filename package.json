@@ -2,11 +2,8 @@
   "type": "module",
   "private": true,
   "name": "kakaobank-test",
-  "version": "0.5.0",
+  "version": "0.0.1",
   "description": "kakaobank-test",
-  "main": "./dist/lithentDocs.umd.js",
-  "module": "./dist/lithentDocs.mjs",
-  "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -14,6 +11,13 @@
   },
   "author": "superlucky84",
   "license": "MIT",
+  "engines": {
+    "pnpm": ">=9.12.3"
+  },
+  "volta": {
+    "node": "22.1.0",
+    "pnpm": "9.12.3"
+  },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.5.0",
     "@typescript-eslint/eslint-plugin": "^8.12.2",
@@ -29,7 +33,7 @@
     "prettier": "^2.8.8",
     "tailwindcss": "^3.3.2",
     "terser": "^5.18.1",
-    "typescript": "^5.6.3",
+    "typescript": "5.6.3",
     "vite": "^5.4.8",
     "vite-plugin-checker": "^0.6.1",
     "vite-plugin-dts": "^2.3.0",
