@@ -1,8 +1,10 @@
-import { selectMemberRef, initSelect } from '@/store';
+import { selectMemberRef } from '@/store';
+import { selectedMemberWithTreeOpen, initSelect } from '@/store/storeAction';
 
 export function makeRoute() {
   initSelect();
 
+  // 히스토리 변경시 상태 변경
   window.addEventListener('popstate', _ => {
     const { pathname, search, origin } = window.location;
 
@@ -13,6 +15,9 @@ export function makeRoute() {
   });
 }
 
+/**
+ * 사용자가 쿼리 변경
+ */
 export function navigate(query: string) {
   const { pathname, search, origin } = window.location;
 
@@ -22,6 +27,9 @@ export function navigate(query: string) {
   execRoute(urlA, urlB, true);
 }
 
+/**
+ * 공통 라우팅 처리
+ */
 function execRoute(urlA: URL, urlB: URL, isPush?: boolean) {
   if (urlA.pathname === urlB.pathname) {
     if (!urlB.search || urlA.search === urlB.search) {
@@ -30,7 +38,7 @@ function execRoute(urlA: URL, urlB: URL, isPush?: boolean) {
       const userSearchParam = new URLSearchParams(urlB.search);
       const userId = userSearchParam.get('userId');
       if (userId) {
-        selectMemberRef.id = userId;
+        selectedMemberWithTreeOpen(userId, Boolean(isPush));
       }
     }
   }
