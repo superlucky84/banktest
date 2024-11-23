@@ -1,18 +1,12 @@
 import { computed } from '@/engine/helper';
 import { h, mount, Fragment } from '@/engine';
-import { selectedDepartmentWatch, opendDepartmentCodesWatch } from '@/store';
+import {
+  selectedDepartmentWatch,
+  opendDepartmentCodesWatch,
+} from '@/store/departmentStore';
 import clsx from '@/helper/clsx';
 import type { Department } from '@/types';
-
-const DepartmentTree = mount<{ departmantTree: Department }>(_renew => {
-  return ({ departmantTree }) => (
-    <ul class="pl-2">
-      {departmantTree.children.map(item => (
-        <DepartmentItem item={item} />
-      ))}
-    </ul>
-  );
-});
+import DepartmentTree from '@/components/Department/DepartmentTree';
 
 const DepartmentItem = mount<{ item: Department }>((renew, props) => {
   const opnedList = opendDepartmentCodesWatch(renew);
@@ -66,4 +60,4 @@ const DepartmentItem = mount<{ item: Department }>((renew, props) => {
   );
 });
 
-export default DepartmentTree;
+export default DepartmentItem;

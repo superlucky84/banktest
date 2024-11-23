@@ -1,7 +1,7 @@
 import type { User } from '@/types';
 import { computed } from '@/engine/helper';
 import { h, mount, Fragment } from '@/engine';
-import { selectedMemberWatch } from '@/store';
+import { selectedMemberWatch } from '@/store/userStore';
 
 const UserItem = mount(renew => {
   const userInfo = selectedMemberWatch(renew, s => [s.info]);

@@ -2,7 +2,8 @@ import type { UserList, User } from '@/types';
 // import { state, computed } from '@/engine/helper';
 import { h, mount } from '@/engine';
 import clsx from '@/helper/clsx';
-import { selectedDepartmentWatch, selectedMemberWatch } from '@/store';
+import { selectedDepartmentWatch } from '@/store/departmentStore';
+import { selectedMemberWatch } from '@/store/userStore';
 import { navigate } from '@/route';
 // import clsx from '@/helper/clsx';
 

@@ -1,17 +1,15 @@
+import { selectMemberRef, allMemberRef } from '@/store/userStore';
+
 import {
-  selectMemberRef,
-  allMemberRef,
   opendDepartmentCodesRef,
   selectedDepartmentRef,
   departmentListRef,
-} from '@/store';
+} from '@/store/departmentStore';
 
 import {
   userSearchTextListRef,
   departmentSearchTextListRef,
 } from '@/store/searchStore';
-
-console.log(departmentSearchTextListRef);
 
 /**
  * 텍스트 검색창에 텍스트로 검색

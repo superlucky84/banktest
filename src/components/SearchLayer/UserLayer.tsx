@@ -1,5 +1,5 @@
 import { h, mount, Fragment } from '@/engine';
-import { selectedMemberWatch } from '@/store';
+import { selectedMemberWatch } from '@/store/userStore';
 import { userSearchTextListWatch } from '@/store/searchStore';
 import { navigate } from '@/route';
 import clsx from '@/helper/clsx';

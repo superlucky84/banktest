@@ -1,7 +1,10 @@
 import { h, mount, Fragment } from '@/engine';
 import clsx from '@/helper/clsx';
 
-import { selectedDepartmentWatch, opendDepartmentCodesWatch } from '@/store';
+import {
+  selectedDepartmentWatch,
+  opendDepartmentCodesWatch,
+} from '@/store/departmentStore';
 import { departmentSearchTextListWatch } from '@/store/searchStore';
 
 const DepartLayer = mount(renew => {
