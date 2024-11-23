@@ -1,13 +1,15 @@
 import { h, mount, render, mountCallback } from '@/engine';
 import { makeDepartmentTree, normalizeUserField } from '@/helper/calculator';
+
 import DepartmentTree from '@/components/Department/DepartmentTree';
 import DepartLayer from '@/components/SearchLayer/DepartLayer';
 import SearchInput from '@/components/SearchLayer/SearchInput';
 import UserList from '@/components/User/UserList';
 import UserLayer from '@/components/SearchLayer/UserLayer';
-import data from '@/data.json';
-import { initNavigation } from '@/route';
 import UserItem from '@/components/User/UserItem';
+
+import data from '@/data.json';
+import { initNavigation } from '@/helper/navigation';
 import { allMemberRef } from '@/store/userStore';
 import { departmentListRef, departmentMapRef } from '@/store/departmentStore';
 import type { Organ } from '@/types';

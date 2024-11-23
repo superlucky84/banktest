@@ -4,7 +4,7 @@ import { h, mount } from '@/engine';
 import clsx from '@/helper/clsx';
 import { selectedDepartmentWatch } from '@/store/departmentStore';
 import { selectedMemberWatch } from '@/store/userStore';
-import { navigate } from '@/route';
+import { navigate } from '@/helper/navigation';
 // import clsx from '@/helper/clsx';
 
 const UserList = mount(renew => {

@@ -1,7 +1,7 @@
 import { h, mount, Fragment } from '@/engine';
 import { selectedMemberWatch } from '@/store/userStore';
 import { userSearchTextListWatch } from '@/store/searchStore';
-import { navigate } from '@/route';
+import { navigate } from '@/helper/navigation';
 import clsx from '@/helper/clsx';
 
 const UserLayer = mount(renew => {
