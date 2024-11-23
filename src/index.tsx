@@ -6,7 +6,7 @@ import '@/input.css';
 
 const Root = mount(() => {
   return () => (
-    <div class="w-3/4 h-[80vh] flex flex-col">
+    <div class="w-4/5 max-w-xl h-[80vh] flex flex-col text-white">
       <Organ />
     </div>
   );

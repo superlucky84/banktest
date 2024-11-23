@@ -1,5 +1,5 @@
 import { selectMemberRef } from '@/store';
-import { selectedMemberWithTreeOpen, initSelect } from '@/store/storeAction';
+import { selectedMemberWithTreeOpen, initSelect } from '@/store/action';
 
 export function makeRoute() {
   initSelect();

@@ -51,7 +51,7 @@ const DepartmentItem = mount<{ item: Department }>((renew, props) => {
 
   return ({ item }) => (
     <Fragment>
-      <li class={clsx('relative', { 'bg-stone-200': isSelected.value })}>
+      <li class={clsx('relative', { 'bg-zinc-400': isSelected.value })}>
         {hasChildren.value && (
           <button class="absolute -left-3" onClick={handleToggle}>
             {opnedList.value.includes(item.code) ? '-' : '+'}

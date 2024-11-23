@@ -2,7 +2,7 @@ import { h, mount, Fragment, mountCallback } from '@/engine';
 import { makeDepartmentTree } from '@/helper/calculator';
 import DepartmentTree from '@/components/DepartmentTree';
 import DepartLayer from '@/components/SearchLayer/DepartLayer';
-import Navi from '@/components/Navi';
+import SearchInput from '@/components/SearchLayer/SearchInput';
 import UserList from '@/components/UserList';
 import UserLayer from '@/components/SearchLayer/UserLayer';
 import data from '@/data.json';
@@ -32,9 +32,10 @@ const Organ = mount(() => {
 
   return () => (
     <Fragment>
-      <Navi />
+      <SearchInput />
       <div class="flex w-full items-center justify-center h-full bg-gray-100">
         <div class="flex flex-col w-1/3 h-full bg-red-500 flex items-center justify-center relative">
+          <DepartLayer />
           <DepartmentTree departmantTree={departmantTree} />
         </div>
         <div class="flex flex-col w-1/3 h-full bg-green-500 flex items-center justify-center relative">
@@ -42,7 +43,6 @@ const Organ = mount(() => {
           <UserList />
         </div>
         <div class="w-1/3 h-full bg-blue-500 flex items-center justify-center">
-          <DepartLayer />
           <UserItem />
         </div>
       </div>

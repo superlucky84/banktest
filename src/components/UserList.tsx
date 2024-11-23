@@ -20,7 +20,7 @@ const UserList = mount(renew => {
         <li
           key={item.id}
           class={clsx('relative', {
-            'bg-stone-200': selectedMemberInfo.id === item.id,
+            'bg-zinc-400': selectedMemberInfo.id === item.id,
           })}
         >
           <button onClick={() => handleSelect(item)}>{item.name}</button>
