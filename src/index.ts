@@ -32,7 +32,7 @@ const fRoot = fMount(renew => {
   allMemberRef.value = normalizeUserField(userList);
 
   /**
-   * 부서 데이터, 유저데이트 스토어에 등록
+   * userId 라우팅 초기상태 세팅
    */
   mountCallback(() => {
     initNavigation();
