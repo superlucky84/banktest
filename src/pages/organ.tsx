@@ -8,7 +8,13 @@ import UserList from '@/components/UserList';
 import data from '@/data.json';
 import { makeRoute, navigate } from '@/route';
 import UserItem from '@/components/UserItem';
-import { allMemberRef, departmentListRef, selectedMemberWatch } from '@/store';
+import {
+  selectedDepartmentWatch,
+  allMemberRef,
+  departmentListRef,
+  selectedMemberWatch,
+  opendDepartmentCodesWatch,
+} from '@/store';
 
 import {
   userSearchTextListWatch,
@@ -19,7 +25,11 @@ import type { Organ } from '@/types';
 const Organ = mount(renew => {
   const { departmentList, userList } = data as Organ;
   const { departmantTree } = makeDepartmentTree(departmentList);
+
   const selectedMemberInfo = selectedMemberWatch(renew, s => [s.id]);
+  const selectedCode = selectedDepartmentWatch(renew, s => [s.code]);
+  const opnedList = opendDepartmentCodesWatch(renew);
+
   const searchTextList = userSearchTextListWatch(renew);
   const departmentTextList = departmentSearchTextListWatch(renew);
 
@@ -39,6 +49,14 @@ const Organ = mount(renew => {
 
   const handleSelectFromSearchUser = (userId: string) => {
     navigate(`?userId=${userId}`, true);
+  };
+  const handleSelectFromSearchDepart = (code: string) => {
+    selectedCode.code = code;
+    const index = opnedList.value.indexOf(code);
+
+    if (index === -1) {
+      opnedList.value = [...opnedList.value, code];
+    }
   };
 
   return () => (
@@ -71,7 +89,19 @@ const Organ = mount(renew => {
           {departmentTextList.value.length > 0 && (
             <ul class="absolute z-10 top-1.5 w-4/5 rounded-lg border border-gray-300 p-4 shadow-lg bg-white">
               {departmentTextList.value.map(item => (
-                <li key={item.code}>{item.name}</li>
+                <li
+                  class={clsx('relative', {
+                    'bg-stone-200': selectedCode.code === item.code,
+                  })}
+                  key={item.code}
+                >
+                  <button
+                    type="button"
+                    onClick={() => handleSelectFromSearchDepart(item.code)}
+                  >
+                    {item.name}
+                  </button>
+                </li>
               ))}
             </ul>
           )}
